@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    public Transform player;
-    public Vector3 offset;
-    public float camPositionspeed = 5f;
+    public Transform player;  // Посилання на об'єкт гравця
+    public Vector3 offset;  // Зміщення камери відносно гравця
+    public float camPositionSpeed = 5f;  // Швидкість руху камери
 
     private void LateUpdate()
     {
-        Vector3 newCamPosition = new Vector3(offset.x, player.position.y + offset.y, player.position.z + offset.z);
-        transform.position = Vector3.Lerp(transform.position, newCamPosition, camPositionspeed * Time.deltaTime);
+        // Визначаємо нову позицію камери з урахуванням поточної позиції гравця та зміщення
+        Vector3 newCamPosition = player.position + offset;
+
+        // Плавне переміщення камери до нової позиції
+        transform.position = Vector3.Lerp(transform.position, newCamPosition, camPositionSpeed * Time.deltaTime);
     }
 }
+
