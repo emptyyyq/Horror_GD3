@@ -6,7 +6,7 @@ public class CameraScript : MonoBehaviour
 {
     public Transform player;        // Ссылка на объект игрока
     public Vector3 offset;          // Смещение камеры относительно игрока
-    public float camPositionSpeed = 10f; // Скорость перемещения камеры
+    public float camPositionSpeed = 1f; // Скорость перемещения камеры
 
     private void LateUpdate()
     {
