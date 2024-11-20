@@ -4,24 +4,43 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    public Transform player;        // Ссылка на объект игрока
-    public Vector3 offset;          // Смещение камеры относительно игрока
-    public float camPositionSpeed = 1f; // Скорость перемещения камеры
+    public Transform MALE2; // Ссылка на объект игрока (родительский объект камеры)
+    public float mouseSensitivity = 450f; // Чувствительность мыши
+    public float movementSpeed = 5f; // Скорость движения
 
-    private void LateUpdate()
+    private float xRotation = 0f; // Текущий угол поворота камеры по оси X (вверх/вниз)
+    private Vector3 velocity; // Вектор для хранения скорости движения камеры
+
+    void Start()
     {
-        // Проверка, чтобы избежать значений около нуля для скорости
-        if (camPositionSpeed <= 0f)
-        {
-            Debug.LogWarning("camPositionSpeed должно быть больше 0");
-            return;
-        }
+        // Скрыть курсор и зафиксировать его в центре экрана
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 
-        // Вычисляем целевую позицию камеры относительно позиции игрока и смещения
-        Vector3 newCamPosition = player.position + offset;
+    void Update()
+    {
+        // Получаем ввод мыши для вращения камеры
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        // Плавное перемещение камеры к новой позиции
-        transform.position = Vector3.Lerp(transform.position, newCamPosition, camPositionSpeed * Time.deltaTime);
+        // Обновляем угол поворота камеры вверх/вниз
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Ограничиваем поворот вверх и вниз
+
+        // Применяем вращение камеры по оси X
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+        // Вращаем игрока (MALE2) по оси Y
+        MALE2.Rotate(Vector3.up * mouseX);
+
+        // Получаем ввод для движения камеры
+        float moveX = Input.GetAxis("Horizontal"); // A/D (Left/Right)
+        float moveZ = Input.GetAxis("Vertical");   // W/S (Forward/Back)
+
+        // Двигаем камеру по осям X и Z
+        Vector3 move = (MALE2.right * moveX + MALE2.forward * moveZ) * movementSpeed * Time.deltaTime;
+        transform.position += move;
     }
 }
 
