@@ -13,9 +13,9 @@ public class CameraScript : MonoBehaviour
 
     void Start()
     {
-        // Скрыть курсор и зафиксировать его в центре экрана
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        // Изначально скрывать курсор не нужно
+        Cursor.lockState = CursorLockMode.None;  // Убираем блокировку курсора
+        Cursor.visible = true;  // Делаем курсор всегда видимым
     }
 
     void Update()
@@ -40,7 +40,7 @@ public class CameraScript : MonoBehaviour
 
         // Двигаем камеру по осям X и Z
         Vector3 move = (MALE2.right * moveX + MALE2.forward * moveZ) * movementSpeed * Time.deltaTime;
-        transform.position += move;
+        MALE2.position += move;
     }
 }
 
