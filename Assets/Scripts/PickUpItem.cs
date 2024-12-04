@@ -13,7 +13,10 @@ public class PickUpItem : MonoBehaviour
     void Start()
     {
         // Находим объект инвентаря (предположим, он называется "InventoryManager")
-        inventory = GameObject.Find("InventoryManager").GetComponent<Inventory>();
+        //GameObject inventoryManager = GameObject.Find("InventoryManager");
+        //Inventory inventoryComponent = inventoryManager.GetComponent<Inventory>();
+        //inventory = inventoryComponent;
+        inventory = Inventory.inventory;
     }
 
     void OnMouseOver()

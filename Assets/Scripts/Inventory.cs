@@ -5,12 +5,17 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    public Inventory inventory; // Ссылка на инвентарь
+    public static Inventory inventory; // Ссылка на инвентарь
     public Image[] inventorySlots; // Массив для слотов инвентаря
     private string[] itemNames;    // Массив для хранения имен предметов в слоте
     private Sprite[] itemSprites;  // Массив для хранения изображений предметов в слоте
     public InventoryElement[] _calls;
     public BlockData[] _blockdatas;
+
+    private void Awake()
+    {
+        inventory = this;
+    }
 
     private void Start()
     {
@@ -39,22 +44,9 @@ public class Inventory : MonoBehaviour
         // Ищем первый пустой слот для добавления предмета
         for (int i = 0; i < inventorySlots.Length; i++)
         {
-            if (inventorySlots[i].sprite == null) // Если слот пуст
-            {
-                inventorySlots[i].sprite = itemSprite; // Помещаем спрайт в слот
-                itemNames[i] = itemName; // Сохраняем имя предмета
-                break; // Прерываем цикл, так как предмет добавлен
-            }
-        }
-    }
-
-    // Для теста можно создать метод для очистки инвентаря
-    public void ClearInventory()
-    {
-        for (int i = 0; i < inventorySlots.Length; i++)
-        {
-            inventorySlots[i].sprite = null;
-            itemNames[i] = null;
+            inventorySlots[i].sprite = itemSprite; // Помещаем спрайт в слот
+            itemNames[i] = itemName; // Сохраняем имя предмета
+            break; // Прерываем цикл, так как предмет добавлен
         }
     }
 }
