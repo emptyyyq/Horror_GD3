@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class PickUpItem : MonoBehaviour
 {
-    public string itemName;    // Имя предмета, например, Knife, Key, Syringe
-    public Sprite itemSprite;  // Спрайт предмета для отображения в инвентаре
+    public string itemName;  // Имя предмета (например, Knife, Key, Syringe)
+    public Sprite itemSprite; // Спрайт предмета для отображения в инвентаре
     public Inventory inventory; // Ссылка на инвентарь для добавления предмета
 
     private bool isMouseOver = false; // Флаг для отслеживания наведения мыши на предмет
 
     void Start()
     {
-        // Находим объект инвентаря (предположим, он называется "InventoryManager")
-        //GameObject inventoryManager = GameObject.Find("InventoryManager");
-        //Inventory inventoryComponent = inventoryManager.GetComponent<Inventory>();
-        //inventory = inventoryComponent;
-        inventory = Inventory.inventory;
+        inventory = Inventory.inventory; // Получаем ссылку на инвентарь
     }
 
     void OnMouseOver()
@@ -44,8 +40,5 @@ public class PickUpItem : MonoBehaviour
     {
         // Добавляем предмет в инвентарь
         inventory.AddItem(itemName, itemSprite);
-
-        // Убираем предмет из сцены после того, как он был поднят
-        gameObject.SetActive(false); // Отключаем объект (или используйте Destroy(gameObject) для удаления)
     }
 }
