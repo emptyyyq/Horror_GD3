@@ -7,7 +7,7 @@ public class GhoulSpawner : MonoBehaviour
     public GameObject ghoulPrefab; // Префаб гулів
     public Transform[] spawnPoints; // Масив точок спавну
     public float spawnInterval = 1f; // Інтервал спавну (у секундах)
-    public int maxGhouls = 6; // Максимальна кількість гулів
+    public int maxGhouls = 7; // Максимальна кількість гулів
 
     private int currentGhoulCount = 0; // Поточна кількість гулів
 
