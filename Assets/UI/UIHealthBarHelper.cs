@@ -11,6 +11,7 @@ public class UIHealthBarHelper : MonoBehaviour
 
     [SerializeField]public GameObject losePanel;
     [SerializeField]public GameObject winPanel;
+    [SerializeField] public GameObject stopPanel;
 
     void Start()
     {
@@ -56,6 +57,11 @@ public class UIHealthBarHelper : MonoBehaviour
         {
             TakeDamage(10f);
         }
+    }
+    public void StopGame()
+    {
+        Time.timeScale = 0;
+        if (stopPanel != null) stopPanel.SetActive(true);
     }
 }
 
