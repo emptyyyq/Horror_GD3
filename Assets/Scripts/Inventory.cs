@@ -9,8 +9,6 @@ public class Inventory : MonoBehaviour
     public Image[] inventorySlots; // Массив слотов инвентаря (UI)
     private string[] itemNames; // Массив для хранения имен предметов в слоте
     private Sprite[] itemSprites; // Массив для хранения спрайтов предметов в слоте
-       void Awake()
-       {
         void Awake()
         {
             if (inventory == null)
@@ -25,7 +23,6 @@ public class Inventory : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-    }
     
 
     private void Start()
