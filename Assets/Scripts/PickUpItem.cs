@@ -38,7 +38,13 @@ public class PickUpItem : MonoBehaviour
 
     void Pickup()
     {
-        // Добавляем предмет в инвентарь
-        inventory.AddItem(itemName, itemSprite);
+        if (string.IsNullOrEmpty(itemName) || itemSprite == null)
+        {
+            Debug.LogError("Имя или спрайт предмета не заданы!");
+            return;
+        }
+
+        inventory.AddItem(itemName, itemSprite); // Добавляем предмет в инвентарь
     }
+
 }
