@@ -1,7 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class NPCController : MonoBehaviour
 {
@@ -14,6 +14,17 @@ public class NPCController : MonoBehaviour
     private NavMeshAgent agent; // Компонент NavMeshAgent
     private float attackTimer; // Таймер для атак
 
+    public float wanderRadius = 10f; // Радіус випадкового руху
+    public float wanderTimer = 5f; // Таймер між змінами цілей
+    private float wanderTimeCounter;
+
+    // Здоров'я NPC
+    public float maxHealth = 150f;
+    private float currentHealth;
+
+    public Slider healthSlider; // Слайдер для відображення HP над NPC
+    public GameObject keyPrefab; // Префаб ключа, який скидає NPC при смерті
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -25,6 +36,15 @@ public class NPCController : MonoBehaviour
         }
 
         attackTimer = attackInterval;
+        wanderTimeCounter = wanderTimer;
+
+        // Ініціалізація здоров'я
+        currentHealth = maxHealth;
+        if (healthSlider != null)
+        {
+            healthSlider.maxValue = maxHealth;
+            healthSlider.value = currentHealth;
+        }
     }
 
     void Update()
@@ -35,11 +55,14 @@ public class NPCController : MonoBehaviour
         {
             agent.SetDestination(player.position); // NPC переслідує гравця
 
-            // Якщо гравець в зоні атаки, завдаємо шкоди
             if (distanceToPlayer <= attackRange)
             {
                 AttackPlayer();
             }
+        }
+        else
+        {
+            Wander();
         }
     }
 
@@ -53,11 +76,71 @@ public class NPCController : MonoBehaviour
 
             if (healthSlider != null)
             {
-                healthSlider.TakeDamage(damage); // Завдаємо шкоди гравцю
+                healthSlider.TakeDamage(damage);
                 Debug.Log($"NPC завдає {damage} шкоди гравцю.");
             }
 
-            attackTimer = attackInterval; // Скидаємо таймер атаки
+            attackTimer = attackInterval;
+        }
+    }
+
+    void Wander()
+    {
+        wanderTimeCounter -= Time.deltaTime;
+
+        if (wanderTimeCounter <= 0f)
+        {
+            Vector3 randomDirection = Random.insideUnitSphere * wanderRadius;
+            randomDirection += transform.position;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomDirection, out hit, wanderRadius, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+            }
+
+            wanderTimeCounter = wanderTimer;
+        }
+    }
+
+    // Метод для отримання пошкоджень
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        if (healthSlider != null)
+        {
+            healthSlider.value = currentHealth;
+        }
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Debug.Log("NPC загинув!");
+
+        // Скидаємо ключ
+        if (keyPrefab != null)
+        {
+            Instantiate(keyPrefab, transform.position, Quaternion.identity);
+        }
+
+        Destroy(gameObject); // Видаляємо NPC
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Syringe"))
+        {
+            TakeDamage(10f);
+        }
+        else if (collision.gameObject.CompareTag("Knife"))
+        {
+            TakeDamage(20f);
         }
     }
 
@@ -67,9 +150,8 @@ public class NPCController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, detectionRange); // Радіус "зору"
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, attackRange); // Радіус атаки
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, wanderRadius); // Радіус випадкового руху
     }
 }
-
-
-
 

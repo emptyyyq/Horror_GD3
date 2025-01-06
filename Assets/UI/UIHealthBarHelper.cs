@@ -53,9 +53,13 @@ public class UIHealthBarHelper : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Syringe"))
         {
             TakeDamage(10f);
+        }
+        else if (collision.gameObject.CompareTag("Knife"))
+        {
+            TakeDamage(20f);
         }
     }
     public void StopGame()
