@@ -11,7 +11,9 @@ public class Inventory : MonoBehaviour
     private Sprite[] itemSprites; // Массив для хранения спрайтов предметов в слоте
         void Awake()
         {
-            if (inventory == null)
+        itemNames = new string[inventorySlots.Length];
+        itemSprites = new Sprite[inventorySlots.Length];
+        if (inventory == null)
             {
                 inventory = this;
                 Debug.Log("Инвентарь инициализирован: " + gameObject.name);
@@ -23,24 +25,6 @@ public class Inventory : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-    
-
-    private void Start()
-    {
-        itemNames = new string[inventorySlots.Length];
-        itemSprites = new Sprite[inventorySlots.Length];
-        if (inventory == null)
-        {
-            inventory = this; // Устанавливаем текущий объект как инвентарь
-            DontDestroyOnLoad(gameObject); // Инвентарь не будет уничтожен при смене сцены
-        }
-        else if (inventory != this)
-        {
-            // Если инвентарь уже существует, уничтожаем текущий объект
-            Debug.LogError("Инвентарь уже инициализирован!");
-            Destroy(gameObject); // Удаляем второй объект инвентаря
-        }
-    }
 
     // Метод для добавления предмета в инвентарь
     public void AddItem(string itemName, Sprite itemSprite)
