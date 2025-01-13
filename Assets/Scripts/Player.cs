@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float groundCheckDistance = 0.3f;
+    [SerializeField] private UIHealthBarHelper healthBarHelper;
 
     private Rigidbody rb;
     private bool isGrounded;
@@ -21,5 +22,6 @@ public class Player : MonoBehaviour
         Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
     }
-
+    public UIHealthBarHelper HealthBarHelper => healthBarHelper;
+    
 }
