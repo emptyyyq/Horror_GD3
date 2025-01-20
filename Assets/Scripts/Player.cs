@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
     [SerializeField] private float moveSpeed = 5f; // Скорость движения
     [SerializeField] private float jumpForce = 5f; // Сила прыжка
     [SerializeField] private float groundCheckDistance = 0.3f; // Расстояние проверки на землю
@@ -29,7 +30,10 @@ public class Player : MonoBehaviour
         {
             Vector3 moveDirection = transform.TransformDirection(moveInput); // Преобразуем в мировые координаты
             rb.MovePosition(transform.position + moveDirection * moveSpeed * Time.deltaTime); // Перемещаем с учетом скорости
+            animator.SetBool("IsWalking",true);
+
         }
+        else { animator.SetBool("IsWalking", false); }
 
         // Логика прыжка
         if (isGrounded && Input.GetKeyDown(KeyCode.Space)) // Прыжок по нажатию пробела
