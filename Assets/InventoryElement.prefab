@@ -50,6 +50,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46ec9e115354c7c4ba97375907f3344a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BlockType: 0
+  BlockSprite: {fileID: 0}
+  count: 0
   Image: {fileID: 7368386580785806345}
   Text: {fileID: 8841634241485888253}
 --- !u!1 &3364538572731835538
