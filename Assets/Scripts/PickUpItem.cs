@@ -9,10 +9,12 @@ public class PickUpItem : MonoBehaviour
     public Inventory inventory; // Ссылка на инвентарь для добавления предмета
 
     private bool isMouseOver = false; // Флаг для отслеживания наведения мыши на предмет
+    private BossController boss; // Посилання на босса
 
     void Start()
     {
         inventory = Inventory.inventory; // Получаем ссылку на инвентарь
+        boss = FindObjectOfType<BossController>(); // Знаходимо босса у сцені
     }
 
     void OnMouseOver()
@@ -45,6 +47,14 @@ public class PickUpItem : MonoBehaviour
         }
 
         inventory.AddItem(itemName, itemSprite); // Добавляем предмет в инвентарь
+
+
+        if (itemName == "Key" && boss != null)
+        {
+            boss.TakeDamageFromKey(); // Викликаємо функцію у босса
+        }
+
+        Destroy(gameObject); // Видаляємо ключ після підбору
     }
 
 }
