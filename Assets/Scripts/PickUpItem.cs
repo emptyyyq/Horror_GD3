@@ -11,7 +11,6 @@ public class PickUpItem : MonoBehaviour
     private Player player;
     public Inventory inventory; // Добавлена ссылка на инвентарь
 
-    private bool isMouseOver = false; // Флаг для отслеживания наведения мыши на предмет
     private BossController boss; // Посилання на босса
 
     void Start()
