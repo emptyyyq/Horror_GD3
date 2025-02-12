@@ -4,35 +4,38 @@ using UnityEngine;
 
 public class PickUpItem : MonoBehaviour
 {
-    public string itemName;  // Имя предмета (например, Knife, Key, Syringe)
-    public Sprite itemSprite; // Спрайт предмета для отображения в инвентаре
-    public Inventory inventory; // Ссылка на инвентарь для добавления предмета
-
-    private bool isMouseOver = false; // Флаг для отслеживания наведения мыши на предмет
+    public string itemName;
+    public Sprite itemSprite;
+    public GameObject weaponPrefab; // Префаб оружия (например, нож или шприц)
+    private bool isMouseOver = false;
+    private Player player;
+    public Inventory inventory; // Добавлена ссылка на инвентарь
 
     void Start()
     {
-        inventory = Inventory.inventory; // Получаем ссылку на инвентарь
+        player = FindObjectOfType<Player>(); // Находим объект игрока
+
+        if (inventory == null) // Если инвентарь не присвоен в инспекторе
+        {
+            inventory = Inventory.inventory; // Получаем ссылку на глобальный инвентарь
+        }
     }
 
     void OnMouseOver()
     {
-        // Когда мышь наведена на объект
-        isMouseOver = true;
+        isMouseOver = true; // Мышь наведена на объект
     }
 
     void OnMouseExit()
     {
-        // Когда мышь покидает объект
-        isMouseOver = false;
+        isMouseOver = false; // Мышь покинула объект
     }
 
     void Update()
     {
-        // Проверяем, если мышь над объектом и нажата левая кнопка мыши
-        if (isMouseOver && Input.GetMouseButtonDown(0)) // 0 - левая кнопка мыши
+        if (isMouseOver && Input.GetMouseButtonDown(0)) // Проверяем, если мышь над объектом и нажата левая кнопка
         {
-            Pickup(); // Взаимодействуем с объектом
+            Pickup();
         }
     }
 
@@ -44,7 +47,13 @@ public class PickUpItem : MonoBehaviour
             return;
         }
 
-        inventory.AddItem(itemName, itemSprite); // Добавляем предмет в инвентарь
-    }
+        // Добавляем предмет в инвентарь
+        inventory.AddItem(itemName, itemSprite);
 
+        // Экипируем оружие в левую руку
+        if (weaponPrefab != null && player != null)
+        {
+            player.EquipWeapon(weaponPrefab);
+        }
+    }
 }
