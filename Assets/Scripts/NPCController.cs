@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class NPCController : MonoBehaviour
 {
-    public Transform player; // Посилання на гравця
+    [SerializeField] private UIHealthBarHelper healthBarHelper;
+    public Player player; // Посилання на гравця
     public float detectionRange = 10f; // Радіус "зору" NPC
     public float attackRange = 2f; // Дистанція атаки
     public float attackInterval = 2f; // Інтервал між атаками
@@ -49,11 +50,11 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if (distanceToPlayer <= detectionRange)
         {
-            agent.SetDestination(player.position); // NPC переслідує гравця
+            agent.SetDestination(player.transform.position); // NPC переслідує гравця
 
             if (distanceToPlayer <= attackRange)
             {
@@ -72,7 +73,7 @@ public class NPCController : MonoBehaviour
 
         if (attackTimer <= 0f)
         {
-            UIHealthBarHelper healthSlider = player.GetComponent<UIHealthBarHelper>();
+            UIHealthBarHelper healthSlider = healthBarHelper;
 
             if (healthSlider != null)
             {

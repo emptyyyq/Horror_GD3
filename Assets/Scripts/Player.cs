@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float groundCheckDistance = 0.3f;
     [SerializeField] private Transform leftHand; // Теперь ссылаемся на левую руку
+    [SerializeField] private UIHealthBarHelper healthBarHelper;
 
     private Rigidbody rb;
     private bool isGrounded;
@@ -42,6 +43,7 @@ public class Player : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
+    public UIHealthBarHelper HealthBarHelper => healthBarHelper;
 
     // Метод для добавления оружия в левую руку
     public void EquipWeapon(GameObject weapon)

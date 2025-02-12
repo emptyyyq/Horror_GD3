@@ -9,6 +9,7 @@ TagManager:
   - LoseScene
   - Syringe
   - Knife
+  - Key
   layers:
   - Default
   - TransparentFX

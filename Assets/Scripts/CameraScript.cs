@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour
 {
     public Transform MALE2; // Ссылка на объект игрока (родительский объект камеры)
-    public float mouseSensitivity = 450f; // Чувствительность мыши
-    public float movementSpeed = 5f; // Скорость движения
+    public float mouseSensitivity = 350f; // Чувствительность мыши
+    public float movementSpeed = 3f; // Скорость движения
 
     private float xRotation = 0f; // Текущий угол поворота камеры по оси X (вверх/вниз)
     private Vector3 velocity; // Вектор для хранения скорости движения камеры

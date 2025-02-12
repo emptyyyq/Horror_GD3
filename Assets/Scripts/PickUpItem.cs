@@ -11,6 +11,9 @@ public class PickUpItem : MonoBehaviour
     private Player player;
     public Inventory inventory; // Добавлена ссылка на инвентарь
 
+    private bool isMouseOver = false; // Флаг для отслеживания наведения мыши на предмет
+    private BossController boss; // Посилання на босса
+
     void Start()
     {
         player = FindObjectOfType<Player>(); // Находим объект игрока
@@ -19,6 +22,7 @@ public class PickUpItem : MonoBehaviour
         {
             inventory = Inventory.inventory; // Получаем ссылку на глобальный инвентарь
         }
+        boss = FindObjectOfType<BossController>(); // Знаходимо босса у сцені
     }
 
     void OnMouseOver()
@@ -55,5 +59,13 @@ public class PickUpItem : MonoBehaviour
         {
             player.EquipWeapon(weaponPrefab);
         }
+
+
+        if (itemName == "Key" && boss != null)
+        {
+            boss.TakeDamageFromKey(); // Викликаємо функцію у босса
+        }
+
+        Destroy(gameObject); // Видаляємо ключ після підбору
     }
 }
