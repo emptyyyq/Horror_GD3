@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private Transform ItemHolder;
     [SerializeField] private Animator animator;
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 100f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float groundCheckDistance = 0.3f;
     [SerializeField] private Transform leftHand; // Теперь ссылаемся на левую руку

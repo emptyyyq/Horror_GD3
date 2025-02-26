@@ -67,4 +67,5 @@ public class PickUpItem : MonoBehaviour
 
         Destroy(gameObject); // Видаляємо ключ після підбору
     }
+    
 }

@@ -50,6 +50,7 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
+        return;
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if (distanceToPlayer <= detectionRange)
@@ -69,6 +70,7 @@ public class NPCController : MonoBehaviour
 
     void AttackPlayer()
     {
+        return;
         attackTimer -= Time.deltaTime;
 
         if (attackTimer <= 0f)
@@ -83,10 +85,12 @@ public class NPCController : MonoBehaviour
 
             attackTimer = attackInterval;
         }
+
     }
 
     void Wander()
     {
+        return;
         wanderTimeCounter -= Time.deltaTime;
 
         if (wanderTimeCounter <= 0f)
@@ -106,6 +110,7 @@ public class NPCController : MonoBehaviour
     // Метод для отримання пошкоджень
     public void TakeDamage(float damage)
     {
+        
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
@@ -133,13 +138,14 @@ public class NPCController : MonoBehaviour
         Destroy(gameObject); // Видаляємо NPC
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (collision.gameObject.CompareTag("Syringe"))
+        Debug.Log(collider.gameObject.name);
+        if (collider.gameObject.CompareTag("Syringe"))
         {
             TakeDamage(10f);
         }
-        else if (collision.gameObject.CompareTag("Knife"))
+        else if (collider.gameObject.CompareTag("Knife"))
         {
             TakeDamage(20f);
         }

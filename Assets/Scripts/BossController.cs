@@ -116,7 +116,7 @@ public class BossController : MonoBehaviour
         }
     }
 
-    // БОС НАНОСИТЬ УРОН ГРАВЦЮ ПРИ ДОТИКУ
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject == player) // Якщо бос доторкнувся до гравця
