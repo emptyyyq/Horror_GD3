@@ -8,7 +8,7 @@ public class NPCController : MonoBehaviour
     [SerializeField] private UIHealthBarHelper healthBarHelper;
     public Player player; // Посилання на гравця
     public float detectionRange = 10f; // Радіус "зору" NPC
-    public float attackRange = 2f; // Дистанція атаки
+    public float attackRange = 2f; // Дистанція атакияяя
     public float attackInterval = 2f; // Інтервал між атаками
     public int damage = 15; // Шкода, яку завдає NPC
 
@@ -50,7 +50,7 @@ public class NPCController : MonoBehaviour
 
     void Update()
     {
-        return;
+        //return;
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if (distanceToPlayer <= detectionRange)
@@ -70,7 +70,7 @@ public class NPCController : MonoBehaviour
 
     void AttackPlayer()
     {
-        return;
+        //return;
         attackTimer -= Time.deltaTime;
 
         if (attackTimer <= 0f)
@@ -90,7 +90,7 @@ public class NPCController : MonoBehaviour
 
     void Wander()
     {
-        return;
+        //return;
         wanderTimeCounter -= Time.deltaTime;
 
         if (wanderTimeCounter <= 0f)

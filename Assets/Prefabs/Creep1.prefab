@@ -305,7 +305,7 @@ MonoBehaviour:
   healthBarHelper: {fileID: 0}
   player: {fileID: 0}
   detectionRange: 10
-  attackRange: 2
+  attackRange: 2.31
   attackInterval: 2
   damage: 15
   wanderRadius: 50

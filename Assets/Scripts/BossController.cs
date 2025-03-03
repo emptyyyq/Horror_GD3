@@ -23,6 +23,7 @@ public class BossController : MonoBehaviour
     private float randomMoveCooldown = 3f;
     private float randomMoveTimer = 0f;
     private Rigidbody rb;
+    public GameObject panel;
 
     private void Start()
     {
@@ -112,8 +113,14 @@ public class BossController : MonoBehaviour
         {
             isDead = true;
             Debug.Log("Бос переможений!");
+            Invoke("ShowWinPanel", 2f);
             Destroy(gameObject, 2f);
         }
+    }
+    private void ShowWinPanel()
+    {
+        panel.SetActive(true);
+        Time.timeScale = 0f; 
     }
 
 
@@ -128,4 +135,5 @@ public class BossController : MonoBehaviour
             }
         }
     }
+    
 }
