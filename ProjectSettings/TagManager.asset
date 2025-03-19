@@ -10,6 +10,7 @@ TagManager:
   - Syringe
   - Knife
   - Key
+  - Battery
   layers:
   - Default
   - TransparentFX
