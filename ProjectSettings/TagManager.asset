@@ -11,6 +11,8 @@ TagManager:
   - Knife
   - Key
   - Battery
+  - screamer
+  - scream_trigger
   layers:
   - Default
   - TransparentFX
