@@ -87,6 +87,8 @@ public class Player : MonoBehaviour
             onLight = false;
             Light.SetActive(false);
         }
+
+
     }
     public UIHealthBarHelper HealthBarHelper => healthBarHelper;
 
@@ -124,6 +126,7 @@ public class Player : MonoBehaviour
     }
     public void FlashLightButton()
     {
+        Debug.Log("Фонарь включен? " + onLight + ", Energy: " + Energy);
         myFx.PlayOneShot(ClipFx);
 
         if (!onLight && Energy > 0)
@@ -146,6 +149,7 @@ public class Player : MonoBehaviour
             Destroy(hit.collider.gameObject);
         }
     }
+    
 }
 
 
