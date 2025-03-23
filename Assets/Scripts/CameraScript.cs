@@ -9,17 +9,34 @@ public class CameraScript : MonoBehaviour
     public float movementSpeed = 3f; // Скорость движения
 
     private float xRotation = 0f; // Текущий угол поворота камеры по оси X (вверх/вниз)
-    private Vector3 velocity; // Вектор для хранения скорости движения камеры
+    private Health playerHealth; // Ссылка на компонент Health
 
     void Start()
     {
-        // Изначально скрывать курсор не нужно
-        Cursor.lockState = CursorLockMode.None;  // Убираем блокировку курсора
-        Cursor.visible = true;  // Делаем курсор всегда видимым
+        // Изначально скрывать курсор, так как здоровье больше 0
+        Cursor.lockState = CursorLockMode.Locked;  // Блокируем курсор в центре экрана
+        Cursor.visible = false;  // Скрываем курсор
+
+        // Инициализируем ссылку на компонент здоровья игрока
+        playerHealth = MALE2.GetComponent<Health>();
     }
 
     void Update()
     {
+        // Проверяем текущее здоровье игрока
+        if (playerHealth != null && playerHealth.currentHealth <= 0)
+        {
+            // Если здоровье 0 или меньше, показываем курсор
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            // Если здоровье больше 0, скрываем курсор
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
         // Получаем ввод мыши для вращения камеры
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
