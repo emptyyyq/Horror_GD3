@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.UI.Image;
 
-public class Player : MonoBehaviour
+public class Player : Sounds
 {
      [SerializeField] private Transform ItemHolder;
     [SerializeField] private Animator animator;
