@@ -15,6 +15,7 @@ public class Player : Sounds
     [SerializeField] private float groundCheckDistance = 0.3f;
     [SerializeField] private Transform leftHand; // Теперь ссылаемся на левую руку
     [SerializeField] private UIHealthBarHelper healthBarHelper;
+    [SerializeField] private float stepInterval = 0.5f; // Интервал между шагами
 
     private Rigidbody rb;
     private bool isGrounded;
@@ -39,8 +40,17 @@ public class Player : Sounds
     public GameObject Button_up;
     private RaycastHit hit;
     public AudioClip Upfx;
+    private float stepTimer = 0f;
 
     public List<System.Func<float>> speedOverrides = new List<System.Func<float>>();
+    private bool wasInAir = false; // Флаг, был ли игрок в воздухе
+
+
+
+    public void PlaySound(AudioClip clip)
+    {
+        myFx.PlayOneShot(clip);
+    }
 
     private void Start()
     {
@@ -49,7 +59,7 @@ public class Player : Sounds
 
     private void Update()
     {
-        // Проверка на то, находится ли персонаж на земле
+        // Проверка, находится ли персонаж на земле
         isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
 
         // Управление движением
@@ -59,6 +69,49 @@ public class Player : Sounds
             Vector3 moveDirection = transform.TransformDirection(moveInput);
             rb.MovePosition(transform.position + moveDirection * moveSpeed * Time.deltaTime);
             animator.SetBool("IsWalking", true);
+
+            // Воспроизведение звука шагов
+            if (isGrounded && stepTimer <= 0f)
+            {
+                myFx.PlayOneShot(Upfx); // Проигрываем звук шага
+                PlaySound(Upfx);
+                stepTimer = stepInterval; // Сбрасываем таймер
+                  
+            }
+        }
+        else
+        {
+            animator.SetBool("IsWalking", false);
+        }
+
+        // Таймер шагов
+        if (stepTimer > 0f)
+        {
+            stepTimer -= Time.deltaTime;
+        }
+        if (isGrounded && stepTimer <= 0f)
+        {
+            Debug.Log("Шаг!"); // Проверка, вызывается ли код
+            myFx.PlayOneShot(Upfx); // Проигрываем звук шага
+            stepTimer = stepInterval; // Сбрасываем таймер
+        }
+
+        // Логика прыжка + ЗВУК ПРЫЖКА
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            PlaySound(ClipFx); // Воспроизведение звука прыжка
+        }
+        // Проверка на то, находится ли персонаж на земле
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
+
+        // Управление движением
+        Vector3 MoveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
+        if (moveInput.magnitude > 0)
+        {
+            Vector3 moveDirection = transform.TransformDirection(MoveInput);
+            rb.MovePosition(transform.position + moveDirection * moveSpeed * Time.deltaTime);
+            animator.SetBool("IsWalking", true);
         }
         else { animator.SetBool("IsWalking", false); }
 
@@ -66,6 +119,56 @@ public class Player : Sounds
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            PlaySound(ClipFx);
+        }
+
+        txt.text = Energy + "%";
+
+        if (onLight)
+        {
+            scet += Time.deltaTime;
+            if (scet >= 2)
+            {
+                Energy -= 1;
+                scet = 0;
+            }
+        }
+
+        Energy = Mathf.Clamp(Energy, 0, 50);
+
+        if (Energy <= 0)
+        {
+            onLight = false;
+            Light.SetActive(false);
+        }
+        // Проверка, находится ли персонаж на земле
+        bool previouslyGrounded = isGrounded;
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
+
+        // Если игрок был в воздухе и только что приземлился — останавливаем звук
+        if (!previouslyGrounded && isGrounded)
+        {
+            myFx.Stop(); // Остановка звука при приземлении
+        }
+
+        // Управление движением
+        Vector3 MOveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
+        if (MoveInput.magnitude > 0)
+        {
+            Vector3 moveDirection = transform.TransformDirection(MOveInput);
+            rb.MovePosition(transform.position + moveDirection * moveSpeed * Time.deltaTime);
+            animator.SetBool("IsWalking", true);
+        }
+        else
+        {
+            animator.SetBool("IsWalking", false);
+        }
+
+        // Логика прыжка + ЗВУК ПРЫЖКА
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            PlaySound(ClipFx); // Воспроизведение звука прыжка
         }
 
         txt.text = Energy + "%";

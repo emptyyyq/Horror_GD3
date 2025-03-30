@@ -3,7 +3,18 @@ guid: 6c8ffda613dcdb24c8dd51109c693bbb
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - ItemHolder: {instanceID: 0}
+  - animator: {instanceID: 0}
+  - leftHand: {instanceID: 0}
+  - healthBarHelper: {instanceID: 0}
+  - playerCamera: {instanceID: 0}
+  - myFx: {instanceID: 0}
+  - ClipFx: {instanceID: 0}
+  - txt: {instanceID: 0}
+  - Light: {instanceID: 0}
+  - Button_up: {instanceID: 0}
+  - Upfx: {fileID: 8300000, guid: c7b59c56b114088429f7f28dcfb29cad, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
