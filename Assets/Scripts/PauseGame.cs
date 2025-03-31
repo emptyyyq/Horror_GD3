@@ -12,10 +12,17 @@ public class PauseGame : MonoBehaviour
 
     private void Start()
     {
+        
         pauseButton.onClick.AddListener(TogglePause);
         panel.SetActive(false); // √арантовано ховаЇмо панель при старт≥ гри
     }
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            TogglePause();
+        }
+    }
     public void TogglePause()
     {
         if (!isGamePaused)
@@ -40,6 +47,10 @@ public class PauseGame : MonoBehaviour
         panel.SetActive(false); // ¬»ћ Ќ”“» панель
         Time.timeScale = 1f;
         isGamePaused = false;
+    }
+    private void OnEnable()
+    {
+        Cursor.visible = true;
     }
 }
 

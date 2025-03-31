@@ -134,7 +134,17 @@ public class Player : Sounds
             }
         }
 
-        Energy = Mathf.Clamp(Energy, 0, 50);
+        Energy = Mathf.Clamp(Energy, 0, 100);
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            FlashLightButton();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ButtonUse();
+        }
+
+
 
         if (Energy <= 0)
         {

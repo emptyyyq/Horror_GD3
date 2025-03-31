@@ -7,7 +7,7 @@ public class CameraScript : MonoBehaviour
     public Transform MALE2; // Ссылка на объект игрока (родительский объект камеры)
     public float mouseSensitivity = 350f; // Чувствительность мыши
     public float movementSpeed = 3f; // Скорость движения
-
+    [SerializeField] private GameObject panel;
     private float xRotation = 0f; // Текущий угол поворота камеры по оси X (вверх/вниз)
     private Health playerHealth; // Ссылка на компонент Health
 
@@ -24,11 +24,12 @@ public class CameraScript : MonoBehaviour
     void Update()
     {
         // Проверяем текущее здоровье игрока
-        if (playerHealth != null && playerHealth.currentHealth <= 0)
+        if (playerHealth != null && playerHealth.currentHealth <= 0 || panel.activeInHierarchy)
         {
             // Если здоровье 0 или меньше, показываем курсор
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            
         }
         else
         {
