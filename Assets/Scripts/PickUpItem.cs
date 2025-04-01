@@ -50,22 +50,21 @@ public class PickUpItem : MonoBehaviour
             return;
         }
 
-        // ƒобавл€ем предмет в инвентарь
+        // ƒодаЇмо предмет в ≥нвентар
         inventory.AddItem(itemName, itemSprite);
 
-        // Ёкипируем оружие в левую руку
+        // якщо це н≥ж або шприц Ч ек≥п≥руЇмо
         if (weaponPrefab != null && player != null)
         {
             player.EquipWeapon(weaponPrefab);
         }
 
-
+        // якщо це ключ Ч наносимо шкоду босу
         if (itemName == "Key" && boss != null)
         {
-            boss.TakeDamageFromKey(); // ¬икликаЇмо функц≥ю у босса
+            boss.TakeDamageFromKey();
         }
-
-        Destroy(gameObject); // ¬идал€Їмо ключ п≥сл€ п≥дбору
+        Destroy(gameObject);  // ¬идал€Їмо ключ п≥сл€ п≥дбору
     }
     
 }

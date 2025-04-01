@@ -142,6 +142,9 @@ public class Player : Sounds
         if (Input.GetKeyDown(KeyCode.E))
         {
             ButtonUse();
+            gameObject.CompareTag("Syringe");
+            gameObject.CompareTag("Knife"); 
+            gameObject.CompareTag("Key"); 
         }
 
 
@@ -201,6 +204,10 @@ public class Player : Sounds
             Light.SetActive(false);
         }
 
+        if (Input.GetKeyDown(KeyCode.E))
+{
+    ButtonUse();
+}
 
     }
     public UIHealthBarHelper HealthBarHelper => healthBarHelper;
