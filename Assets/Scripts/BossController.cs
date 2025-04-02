@@ -25,6 +25,8 @@ public class BossController : MonoBehaviour
     private Rigidbody rb;
     public GameObject panel;
 
+
+
     private void Start()
     {
         playerHealth = FindObjectOfType<UIHealthBarHelper>(); // «находимо систему здоров'€ гравц€
