@@ -1,70 +1,99 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PickUpItem : MonoBehaviour
 {
-    public string itemName;
-    public Sprite itemSprite;
-    public GameObject weaponPrefab; // Префаб оружия (например, нож или шприц)
-    private bool isMouseOver = false;
-    private Player player;
-    public Inventory inventory; // Добавлена ссылка на инвентарь
-
-    private BossController boss; // Посилання на босса
+    public string itemName; // The name of the item
+    public Sprite itemSprite; // The sprite representing the item
+    public GameObject weaponPrefab; // The weapon prefab (e.g., knife or syringe)
+    private Player player; // Reference to the player
+    public Inventory inventory; // Reference to the inventory
+    bool isCursorOver = false; // Flag to check if the cursor is over the object
+    private BossController boss; // Reference to the boss
+    public Image cursorImage; // The Image component for the custom cursor (assigned in the inspector)
 
     void Start()
     {
-        player = FindObjectOfType<Player>(); // Находим объект игрока
+        // Find the player object in the scene
+        player = FindObjectOfType<Player>();
 
-        if (inventory == null) // Если инвентарь не присвоен в инспекторе
+        // If the inventory is not assigned in the Inspector, use the global inventory
+        if (inventory == null)
         {
-            inventory = Inventory.inventory; // Получаем ссылку на глобальный инвентарь
+            inventory = Inventory.inventory; // Get the global inventory reference
         }
-        boss = FindObjectOfType<BossController>(); // Знаходимо босса у сцені
-    }
 
-    void OnMouseOver()
-    {
-        isMouseOver = true; // Мышь наведена на объект
-    }
+        // Find the boss object in the scene
+        boss = FindObjectOfType<BossController>();
 
-    void OnMouseExit()
-    {
-        isMouseOver = false; // Мышь покинула объект
+        // Ensure the custom cursor is enabled (check if the cursorImage is assigned)
+        if (cursorImage != null)
+        {
+            cursorImage.enabled = true; // Show the custom cursor
+        }
+        else
+        {
+            Debug.LogError("Cursor Image not assigned!"); // Log an error if the cursor image is not assigned in the Inspector
+        }
     }
 
     void Update()
     {
-        if (isMouseOver && Input.GetMouseButtonDown(0)) // Проверяем, если мышь над объектом и нажата левая кнопка
+        // Check if the custom cursor is over the object and if the left mouse button is pressed
+        if (IsCursorOverObject() && Input.GetMouseButtonDown(0))
         {
-            Pickup();
+            Pickup(); // Call the Pickup method if conditions are met
         }
     }
 
+    // This method checks if the cursor is currently over the object
+    bool IsCursorOverObject()
+    {
+        // Get the RectTransform of the current object
+        RectTransform rectTransform = GetComponent<RectTransform>();
+
+        // If the RectTransform exists, check if the cursor is within the bounds of the object
+        if (rectTransform != null)
+        {
+            Vector2 localPoint;
+            // Convert the mouse position from screen space to the object's local space
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, null, out localPoint);
+            // Return true if the cursor is within the object's bounds
+            return rectTransform.rect.Contains(localPoint);
+        }
+
+        return false; // Return false if the cursor is not over the object
+    }
+
+    // This method handles picking up the item
     void Pickup()
     {
+        // Ensure that the item has a name and sprite
         if (string.IsNullOrEmpty(itemName) || itemSprite == null)
         {
-            Debug.LogError("Имя или спрайт предмета не заданы!");
+            Debug.LogError("Item name or sprite is not set!"); // Log an error if item details are missing
             return;
         }
 
-        // Додаємо предмет в інвентар
+        // Add the item to the inventory
         inventory.AddItem(itemName, itemSprite);
 
-        // Якщо це ніж або шприц — екіпіруємо
+        // If the item is a weapon (e.g., knife or syringe), equip it
         if (weaponPrefab != null && player != null)
         {
-            player.EquipWeapon(weaponPrefab);
+            player.EquipWeapon(weaponPrefab); // Equip the weapon
         }
 
-        // Якщо це ключ — наносимо шкоду босу
+        // If the item is a key, deal damage to the boss
         if (itemName == "Key" && boss != null)
         {
-            boss.TakeDamageFromKey();
+            boss.TakeDamageFromKey(); // Deal damage to the boss using the key
         }
-        Destroy(gameObject);  // Видаляємо ключ після підбору
+
+        // Destroy the object after picking it up (e.g., the key or item)
+        Destroy(gameObject);
     }
-    
+
 }
