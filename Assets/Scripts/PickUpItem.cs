@@ -42,9 +42,18 @@ public class PickUpItem : MonoBehaviour
     void Update()
     {
         // Check if the custom cursor is over the object and if the left mouse button is pressed
-        if (IsCursorOverObject() && Input.GetMouseButtonDown(0))
+        if (IsCursorOverObject() && Input.GetKeyDown(KeyCode.E))
         {
             Pickup(); // Call the Pickup method if conditions are met
+        }
+        // Ensure the custom cursor is enabled (check if the cursorImage is assigned)
+        if (cursorImage != null)
+        {
+            cursorImage.enabled = true; // Show the custom cursor
+        }
+        else
+        {
+            Debug.LogError("Cursor Image not assigned!"); // Log an error if the cursor image is not assigned in the Inspector
         }
     }
 
